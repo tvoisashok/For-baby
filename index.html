@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>Для тебя ❤️</title>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&display=swap" rel="stylesheet">
     <style>
         * { box-sizing: border-box; }
         body {
@@ -13,24 +14,27 @@
             align-items: center;
             height: 100vh;
             background: url('bg.PNG') no-repeat center center/cover;
-            font-family: 'Segoe UI', Roboto, sans-serif;
+            font-family: 'Segoe UI', sans-serif;
             overflow: hidden;
         }
         .card {
             background: rgba(255, 255, 255, 0.9);
             backdrop-filter: blur(10px);
-            padding: 20px;
-            border-radius: 20px;
+            padding: 25px;
+            border-radius: 25px;
             text-align: center;
             box-shadow: 0 10px 30px rgba(0,0,0,0.3);
             width: 90%;
             max-width: 380px;
             z-index: 10;
-            display: flex;
-            flex-direction: column;
-            max-height: 90vh; /* Чтобы карточка не была длиннее экрана */
         }
-        h1 { color: #c9184a; font-size: 20px; margin: 10px 0; }
+        /* Романтичный красный шрифт */
+        h1 { 
+            color: #e63946; 
+            font-family: 'Caveat', cursive; 
+            font-size: 32px; 
+            margin: 10px 0; 
+        }
         .btns { margin-top: 20px; min-height: 60px; position: relative; width: 100%; }
         button { 
             padding: 12px 25px; 
@@ -40,33 +44,42 @@
             border: none; 
             font-weight: bold;
         }
-        #yesBtn { background: #ff4d6d; color: white; width: 120px; }
-        #noBtn { background: #888; color: white; position: absolute; width: 100px; right: 10px; }
+        #yesBtn { background: #ff4d6d; color: white; transition: 0.3s; }
+        #yesBtn:active { transform: scale(0.9); }
+        #noBtn { background: #888; color: white; position: absolute; right: 10px; }
         
         .hidden { display: none !important; }
 
-        /* Стили для финального окна, чтобы ничего не ползло */
-        #step2 {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            overflow: hidden;
-        }
         .img-container {
             width: 100%;
             margin: 10px 0;
-            flex-shrink: 1; /* Позволяет картинке сжиматься */
-            overflow: hidden;
             border-radius: 15px;
+            overflow: hidden;
         }
         .result-img {
             width: 100%;
             height: auto;
-            max-height: 40vh; /* Картинка займет не больше 40% высоты экрана */
-            object-fit: cover; /* Красиво обрезает, если пропорции разные */
+            max-height: 40vh;
+            object-fit: cover;
             display: block;
         }
-        p { font-size: 16px; color: #333; margin-bottom: 5px; }
+        p { font-size: 18px; color: #333; font-family: 'Segoe UI', sans-serif; }
+
+        /* Стиль для летящих сердечек */
+        .heart {
+            position: fixed;
+            color: #ff4d6d;
+            font-size: 20px;
+            user-select: none;
+            pointer-events: none;
+            z-index: 999;
+            animation: moveHearts 4s linear forwards;
+        }
+
+        @keyframes moveHearts {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
+        }
     </style>
 </head>
 <body>
@@ -81,14 +94,14 @@
         </div>
 
         <div id="step2" class="hidden">
-            <h1> С Днём Святого Валентина 😍</h1>
+            <h1>С Днём Святого Валентина😍</h1>
             <div class="img-container">
                 <img src="photo.JPG" class="result-img" alt="Фото" />
             </div>
             <p>Я очень сильно тебя люблю.<br>
   Я так соскучился за эти дни, буду тискать и обнимать тебя (ну и конечно же твои ножки, куда без них 😂)<br>
-  Не сдыхаешься ты от меня 😈
-	Спасибо, что ты есть у меня.</p>
+  Не сдыхаешься ты от меня 😈<br>
+	Спасибо, что ты есть у меня</p>
         </div>
     </div>
 
@@ -101,10 +114,19 @@
         const s2 = document.getElementById('step2');
         const a = document.getElementById('m');
 
-        // Попытка включить музыку при первом же касании экрана (для обхода блоков)
-        document.body.addEventListener('touchstart', () => {
-            a.play().catch(() => {}); 
-        }, { once: true });
+        // Функция появления сердечек
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            heart.innerHTML = '❤️';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.top = '100vh';
+            heart.style.fontSize = Math.random() * 20 + 20 + 'px';
+            heart.style.duration = Math.random() * 2 + 3 + 's';
+            document.body.appendChild(heart);
+
+            setTimeout(() => { heart.remove(); }, 4000);
+        }
 
         const move = () => {
             const x = Math.random() * (window.innerWidth - b2.offsetWidth);
@@ -122,8 +144,15 @@
         b1.onclick = () => {
             s1.classList.add('hidden');
             s2.classList.remove('hidden');
-            a.play(); // Здесь музыка точно заиграет
+            a.play();
+            // Запуск сердечек: создаем 50 штук с интервалом
+            setInterval(createHeart, 200);
         };
+
+        // Для активации аудио на мобильных
+        document.body.addEventListener('touchstart', () => {
+            a.play().then(() => a.pause()).catch(() => {});
+        }, { once: true });
     </script>
 </body>
 </html>
