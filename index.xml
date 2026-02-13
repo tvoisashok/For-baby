@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>Баба, для тебя тебя ❤️</title>
+
+<style>
+body{
+  margin:0;
+  height:100vh;
+  background:linear-gradient(135deg,#1a1a1a,#2b2b2b);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-family:Arial, sans-serif;
+  color:white;
+}
+
+.card{
+  text-align:center;
+  background:rgba(255,255,255,0.05);
+  padding:40px 25px;
+  border-radius:20px;
+  max-width:320px;
+  animation:fade 2s ease;
+}
+
+h1{
+  font-size:28px;
+  margin-bottom:15px;
+}
+
+p{
+  font-size:18px;
+  line-height:1.5;
+}
+
+.heart{
+  font-size:60px;
+  margin-top:20px;
+  animation:pulse 1.5s infinite;
+}
+
+@keyframes pulse{
+  0%{transform:scale(1);}
+  50%{transform:scale(1.2);}
+  100%{transform:scale(1);}
+}
+
+@keyframes fade{
+  from{opacity:0; transform:translateY(20px);}
+  to{opacity:1; transform:translateY(0);}
+}
+</style>
+</head>
+
+<body>
+
+<div class="card">
+  <h1>С Днём Святого Валентина ❤️</h1>
+
+  <p>
+  Я очень сильно тебя люблю.<br>
+  Я так соскучился за эти дни, буду тискать и обнимать тебя (ну и конечно же твои ножки, куда без них 😂)<br>
+  Не сдыхаешься ты от меня 😈
+	Спасибо, что ты есть у меня.
+  </p>
+
+  <div class="heart">❤️</div>
+</div>
+
+</body>
+</html>
