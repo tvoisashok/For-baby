@@ -1,13 +1,188 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>Для тебя ❤️</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@900&family=Raleway:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: url('bg.PNG') no-repeat center center/cover;
+            font-family: 'Raleway', sans-serif;
+            overflow: hidden;
+        }
+        .card {
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(12px);
+            padding: 25px;
+            border-radius: 25px;
+            text-align: center;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+            width: 90%;
+            max-width: 380px;
+            z-index: 10;
+            max-height: 95vh;
+            overflow-y: auto;
+        }
+        
+        h1 { 
+            color: #e63946; 
+            font-family: 'Montserrat', sans-serif; 
+            font-size: 24px; 
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin: 10px 0;
+            line-height: 1.2;
+        }
+
+        .btns { margin-top: 20px; min-height: 60px; position: relative; width: 100%; }
+        
+        button { 
+            padding: 12px 25px; 
+            font-size: 18px; 
+            cursor: pointer; 
+            border-radius: 50px; 
+            border: none; 
+            font-weight: bold;
+            font-family: 'Montserrat', sans-serif;
+            transition: 0.3s;
+        }
+        
+        #yesBtn { background: #ff4d6d; color: white; box-shadow: 0 5px 15px rgba(255,77,109,0.3); }
+        #yesBtn:active { transform: scale(0.9); }
+        #noBtn { background: #888; color: white; position: absolute; right: 10px; }
+        
+        .hidden { display: none !important; }
+
+        .img-container {
+            width: 100%;
+            margin: 15px 0;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .result-img {
+            width: 100%;
+            height: auto;
+            max-height: 35vh;
+            object-fit: cover;
+            display: block;
+        }
+
+        p { 
+            font-size: 16px; 
+            line-height: 1.5;
+            color: #333; 
+            font-weight: 700;
+            margin-top: 10px;
+        }
+
+        /* Анимация сердечек */
+        .heart {
+            position: fixed;
+            color: #ff4d6d;
+            user-select: none;
+            pointer-events: none;
+            z-index: 999;
+            animation: moveHearts linear forwards;
+        }
+
+        @keyframes moveHearts {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(-110vh) rotate(360deg); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <div id="step1">
+            <h1>Пожалуйста, подтвердите, что вы красотючка-вонючка ❤️</h1>
+            <div class="btns">
+                <button id="yesBtn">ДА!</button>
+                <button id="noBtn">Нет</button>
+            </div>
+        </div>
+
+        <div id="step2" class="hidden">
+            <h1>С Днём Святого Валентина 😍</h1>
+            <div class="img-container">
+                <img src="photo.PNG" class="result-img" alt="Фото" />
+            </div>
+            <p>Я очень сильно тебя люблю.<br>
+            Я так соскучился за эти дни, буду тискать и обнимать тебя (ну и конечно же твои ножки, куда без них 😂)<br>
+            Не сдыхаешься ты от меня 😈<br>
+            Спасибо, что ты есть у меня</p>
+        </div>
+    </div>
+
+    <audio id="m" src="music.mp3" loop preload="auto"></audio>
+
+    <script>
+        const b1 = document.getElementById('yesBtn');
+        const b2 = document.getElementById('noBtn');
+        const s1 = document.getElementById('step1');
+        const s2 = document.getElementById('step2');
+        const a = document.getElementById('m');
+
+        // Функция создания сердечек (разных видов)
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            const types = ['❤️', '💖', '💝', '💕', '💗'];
+            heart.innerHTML = types[Math.floor(Math.random() * types.length)];
+            
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.top = '105vh';
+            heart.style.opacity = Math.random() * 0.5 + 0.5;
+            heart.style.fontSize = Math.random() * 15 + 15 + 'px';
+            
+            const duration = Math.random() * 2 + 2; 
+            heart.style.animationDuration = duration + 's';
+            
+            document.body.appendChild(heart);
+            setTimeout(() => { heart.remove(); }, duration * 1000);
+        }
+
+        // Логика кнопки "Нет"
+        const move = () => {
+            const x = Math.random() * (window.innerWidth - b2.offsetWidth);
+            const y = Math.random() * (window.innerHeight - b2.offsetHeight);
+            b2.style.position = 'fixed';
+            b2.style.left = x + 'px';
+            b2.style.top = y + 'px';
+        };
+
+        b2.onmouseover = b2.ontouchstart = (e) => {
+            if(e.type === 'touchstart') e.preventDefault();
+            move();
+        };
+
+        // Логика кнопки "Да"
         b1.onclick = () => {
             s1.classList.add('hidden');
             s2.classList.remove('hidden');
             a.play();
             
-            // Увеличили частоту: теперь сердечко создается каждые 100мс (в 3 раза чаще)
-            setInterval(createHeart, 100); 
+            // Запускаем ливень сердечек (каждые 100мс)
+            setInterval(createHeart, 100);
             
-            // Дополнительный залп из 20 сердечек сразу в момент нажатия
-            for(let i = 0; i < 20; i++) {
-                setTimeout(createHeart, Math.random() * 500);
+            // Первый мощный залп
+            for(let i = 0; i < 25; i++) {
+                setTimeout(createHeart, Math.random() * 1000);
             }
         };
+
+        // Предзагрузка аудио для мобилок
+        document.body.addEventListener('touchstart', () => {
+            a.play().then(() => a.pause()).catch(() => {});
+        }, { once: true });
+    </script>
+</body>
+</html>
