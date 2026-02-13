@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>С Днем Святого Валентина!</title>
+    <style>
+        body {
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: url('bg.jpg') no-repeat center center/cover;
+            font-family: sans-serif;
+            overflow: hidden;
+        }
+        .card {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            width: 80%;
+            max-width: 400px;
+        }
+        .btns { margin-top: 20px; position: relative; min-height: 50px; }
+        button { padding: 10px 20px; font-size: 18px; cursor: pointer; border-radius: 10px; border: none; }
+        #yesBtn { background: #ff4d6d; color: white; }
+        #noBtn { background: #888; color: white; position: absolute; }
+        .hidden { display: none; }
+        img { width: 100%; border-radius: 10px; margin-top: 15px; }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <div id="step1">
+            <h1 style="color: #c9184a;">Ты будешь моей Валентинкой? ❤️</h1>
+            <div class="btns">
+                <button id="yesBtn">Да</button>
+                <button id="noBtn">Нет</button>
+            </div>
+        </div>
+
+        <div id="step2" class="hidden">
+            <h1 style="color: #c9184a;">Ура! 😍</h1>
+            <p>Я тебя очень люблю!</p>
+            <img src="photo.jpg">
+        </div>
+    </div>
+
+    <audio id="m" src="music.mp3" loop></audio>
+
+    <script>
+        const b1 = document.getElementById('yesBtn');
+        const b2 = document.getElementById('noBtn');
+        const s1 = document.getElementById('step1');
+        const s2 = document.getElementById('step2');
+        const a = document.getElementById('m');
+
+        b2.onmouseover = b2.ontouchstart = () => {
+            b2.style.left = Math.random() * (window.innerWidth - 100) + 'px';
+            b2.style.top = Math.random() * (window.innerHeight - 100) + 'svg';
+            b2.style.position = 'fixed';
+        };
+
+        b1.onclick = () => {
+            s1.classList.add('hidden');
+            s2.classList.remove('hidden');
+            a.play();
+        };
+    </script>
+</body>
+</html>
